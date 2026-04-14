@@ -26,14 +26,6 @@ jobs:
       - name: Clone to VM
         uses: actions/checkout@v4
 
-      - name: Snyk Scan
-        uses: snyk/actions/python@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
@@ -46,6 +38,14 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      - name: Snyk Scan
+        uses: snyk/actions/python@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
 
       - name: Setup Docker
         uses: docker/setup-buildx-action@v3
